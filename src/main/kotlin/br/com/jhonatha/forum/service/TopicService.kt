@@ -1,30 +1,48 @@
 package br.com.jhonatha.forum.service
 
-import br.com.jhonatha.forum.models.Course
+import br.com.jhonatha.forum.dto.NewTopicRequest
+import br.com.jhonatha.forum.dto.TopicResponse
 import br.com.jhonatha.forum.models.Topic
-import br.com.jhonatha.forum.models.User
 import org.springframework.stereotype.Service
 
 @Service
-class TopicService {
-    
-    fun list(): List<Topic> {
-        val topic = Topic(
-            id = 1,
-            title = "Topic 1",
-            message = "Hello World!",
-            course = Course(
-                id = 1,
-                name = "Kotlin + Spring",
-                category = "BackEnd"
-            ),
-            author = User(
-                id = 1,
-                name = "Jhonatha Nunes",
-                email = "jhonathasilveira@gmail.com"
-            ),
-        )
+class TopicService(
+    private var topics: List<Topic> = ArrayList(),
+    private val courseService: CourseService,
+    private val userService: UserService
+) {
 
-        return listOf(topic, topic, topic)
+    fun list(): List<TopicResponse> {
+        return this.topics.map { 
+            TopicResponse(
+                id = it.id ?: 0,
+                title = it.title,
+                message = it.message,
+                status = it.status,
+                createdAt = it.createdAt,
+            )
+        }
+    }
+
+    fun findById(id: Long): TopicResponse {
+        val topic = topics.first { it.id == id }
+        
+        return TopicResponse(
+            id = topic.id ?: 0,
+            title = topic.title,
+            message = topic.message,
+            status = topic.status,
+            createdAt = topic.createdAt,
+        )
+    }
+
+    fun create(dto: NewTopicRequest) {
+        topics = topics.plus(Topic(
+            id = topics.size.toLong() + 1,
+            title = dto.title,
+            message = dto.message,
+            course = courseService.findById(dto.courseId),
+            author = userService.findById(dto.authorId),
+        ))
     }
 }

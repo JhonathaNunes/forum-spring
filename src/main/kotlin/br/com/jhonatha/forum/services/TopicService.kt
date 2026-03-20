@@ -1,6 +1,7 @@
 package br.com.jhonatha.forum.services
 
 import br.com.jhonatha.forum.dto.NewTopicRequest
+import br.com.jhonatha.forum.dto.UpdateTopicRequest
 import br.com.jhonatha.forum.mappers.TopicRequestMapper
 import br.com.jhonatha.forum.models.Topic
 import org.springframework.stereotype.Service
@@ -24,5 +25,21 @@ class TopicService(
         topic.id = topics.size.toLong() + 1
 
         topics = topics.plus(topic)
+    }
+
+    fun update(request: UpdateTopicRequest) {
+        val topic = this.findById(request.id)
+
+        topics = topics.minus(topic)
+            .plus(topic.copy(
+                title = request.title,
+                message = request.message,
+            ))
+    }
+
+    fun delete(id: Long) {
+        val topic = this.findById(id)
+
+        topics = topics.minus(topic)
     }
 }

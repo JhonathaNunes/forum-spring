@@ -4,6 +4,7 @@ import br.com.jhonatha.forum.dto.AnswersResponse
 import br.com.jhonatha.forum.dto.NewAnswerRequest
 import br.com.jhonatha.forum.dto.toAnswersResponse
 import br.com.jhonatha.forum.services.AnswerService
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -25,7 +26,7 @@ class AnswerController(
     @PostMapping
     fun createAnswer(
         @PathVariable id: Long,
-        @RequestBody request: NewAnswerRequest
+        @RequestBody @Valid request: NewAnswerRequest
     ) {
         answerService.create(id, request)
     }

@@ -2,6 +2,7 @@ package br.com.jhonatha.forum.controllers
 
 import br.com.jhonatha.forum.dto.NewTopicRequest
 import br.com.jhonatha.forum.dto.TopicResponse
+import br.com.jhonatha.forum.dto.toTopicResponse
 import br.com.jhonatha.forum.services.TopicService
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,12 +19,14 @@ class TopicController(private val service: TopicService) {
 
     @GetMapping
     fun getAllTopics(): List<TopicResponse> {
-        return service.list()
+        return service.list().map {
+            it.toTopicResponse()
+        }
     }
 
     @GetMapping("/{id}")
     fun getTopicById(@PathVariable id: Long): TopicResponse {
-        return service.findById(id)
+        return service.findById(id).toTopicResponse()
     }
 
     @PostMapping

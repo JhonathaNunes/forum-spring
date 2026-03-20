@@ -3,6 +3,7 @@ package br.com.jhonatha.forum.controllers
 import br.com.jhonatha.forum.dto.NewTopicRequest
 import br.com.jhonatha.forum.dto.TopicResponse
 import br.com.jhonatha.forum.services.TopicService
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -26,7 +27,7 @@ class TopicController(private val service: TopicService) {
     }
 
     @PostMapping
-    fun createTopic(@RequestBody topic: NewTopicRequest) {
+    fun createTopic(@RequestBody @Valid topic: NewTopicRequest) {
         service.create(topic)
     }
 }

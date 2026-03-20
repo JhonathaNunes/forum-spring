@@ -20,21 +20,26 @@ class TopicService(
         return topics.first { it.id == id }
     }
 
-    fun create(request: NewTopicRequest) {
+    fun create(request: NewTopicRequest): Topic {
         val topic = topicRequestMapper.map(request)
         topic.id = topics.size.toLong() + 1
 
         topics = topics.plus(topic)
+
+        return topic
     }
 
-    fun update(request: UpdateTopicRequest) {
+    fun update(request: UpdateTopicRequest): Topic {
         val topic = this.findById(request.id)
+        val updatedTopic = topic.copy(
+            title = request.title,
+            message = request.message,
+        )
 
         topics = topics.minus(topic)
-            .plus(topic.copy(
-                title = request.title,
-                message = request.message,
-            ))
+            .plus(updatedTopic)
+
+        return updatedTopic
     }
 
     fun delete(id: Long) {

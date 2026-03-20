@@ -6,6 +6,8 @@ import br.com.jhonatha.forum.dto.UpdateTopicRequest
 import br.com.jhonatha.forum.dto.toTopicResponse
 import br.com.jhonatha.forum.services.TopicService
 import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.util.UriComponentsBuilder
 
 
 @RestController
@@ -33,16 +37,25 @@ class TopicController(private val service: TopicService) {
     }
 
     @PostMapping
-    fun createTopic(@RequestBody @Valid request: NewTopicRequest) {
-        service.create(request)
+    fun createTopic(
+        @RequestBody @Valid request: NewTopicRequest,
+        uriBuilder: UriComponentsBuilder
+    ): ResponseEntity<TopicResponse> {
+        val topicResponse = service.create(request).toTopicResponse()
+        val uri = uriBuilder.path("/topics/${topicResponse.id}").build().toUri()
+
+        return ResponseEntity.created(uri).body(topicResponse)
     }
 
     @PutMapping
-    fun updateTopic(@RequestBody @Valid request: UpdateTopicRequest) {
-        service.update(request)
+    fun updateTopic(@RequestBody @Valid request: UpdateTopicRequest): ResponseEntity<TopicResponse> {
+        val topicResponse = service.update(request).toTopicResponse()
+
+        return ResponseEntity.ok(topicResponse)
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteTopic(@PathVariable id: Long) {
         service.delete(id)
     }

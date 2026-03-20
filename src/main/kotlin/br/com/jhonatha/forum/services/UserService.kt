@@ -1,4 +1,4 @@
-package br.com.jhonatha.forum.service
+package br.com.jhonatha.forum.services
 
 import br.com.jhonatha.forum.models.User
 import org.springframework.stereotype.Service

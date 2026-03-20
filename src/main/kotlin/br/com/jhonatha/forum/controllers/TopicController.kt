@@ -2,7 +2,7 @@ package br.com.jhonatha.forum.controllers
 
 import br.com.jhonatha.forum.dto.NewTopicRequest
 import br.com.jhonatha.forum.dto.TopicResponse
-import br.com.jhonatha.forum.service.TopicService
+import br.com.jhonatha.forum.services.TopicService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping

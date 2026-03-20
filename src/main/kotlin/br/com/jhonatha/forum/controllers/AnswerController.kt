@@ -44,16 +44,20 @@ class AnswerController(
 
     @PutMapping
     fun updateAnswer(
+        @PathVariable topicId: Long,
         @RequestBody @Valid request: UpdateAnswerRequest,
     ): ResponseEntity<AnswerResponse> {
-        val response = answerService.update(request).toAnswersResponse()
+        val response = answerService.update(request, topicId).toAnswersResponse()
 
         return ResponseEntity.ok(response)
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteAnswer(@PathVariable id: Long) {
-        answerService.delete(id)
+    fun deleteAnswer(
+        @PathVariable topicId: Long,
+        @PathVariable id: Long
+    ) {
+        answerService.delete(id, topicId)
     }
 }

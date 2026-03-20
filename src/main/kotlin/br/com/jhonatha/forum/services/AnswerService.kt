@@ -31,8 +31,8 @@ class AnswerService(
         return answer
     }
 
-    fun update(request: UpdateAnswerRequest): Answer {
-        val answer = answers.first { it.id == request.id}
+    fun update(request: UpdateAnswerRequest, topicId: Long): Answer {
+        val answer = answers.first { it.id == request.id && it.topic.id == topicId }
         val updatedAnswer = answer.copy(message = request.message)
 
         answers = answers.minus(answer).plus(updatedAnswer)
@@ -40,8 +40,8 @@ class AnswerService(
         return updatedAnswer
     }
 
-    fun delete(id: Long) {
-        val answer = answers.first { it.id == id }
+    fun delete(id: Long, topicId: Long) {
+        val answer = answers.first { it.id == id && it.topic.id == topicId }
         answers = answers.minus(answer)
     }
 

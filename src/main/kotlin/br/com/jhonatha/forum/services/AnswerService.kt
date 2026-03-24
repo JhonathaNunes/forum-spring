@@ -38,7 +38,8 @@ class AnswerService(
         topicId: Long
     ): Answer {
         return answers.find {
-            it.id == id && it.topic.id == topicId } ?: throw NotFoundException(notFoundErrorMessage.format(id))
+            it.id == id && it.topic.id == topicId
+        } ?: throw NotFoundException(notFoundErrorMessage.format(id))
     }
 
     fun update(request: UpdateAnswerRequest, topicId: Long): Answer {

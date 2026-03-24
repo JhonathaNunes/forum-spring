@@ -2,6 +2,7 @@ package br.com.jhonatha.forum.services
 
 import br.com.jhonatha.forum.dto.NewTopicRequest
 import br.com.jhonatha.forum.dto.UpdateTopicRequest
+import br.com.jhonatha.forum.exceptions.NotFoundException
 import br.com.jhonatha.forum.mappers.TopicRequestMapper
 import br.com.jhonatha.forum.models.Topic
 import org.springframework.stereotype.Service
@@ -9,7 +10,8 @@ import org.springframework.stereotype.Service
 @Service
 class TopicService(
     private var topics: List<Topic> = ArrayList(),
-    private val topicRequestMapper: TopicRequestMapper
+    private val topicRequestMapper: TopicRequestMapper,
+    private val notFoundMessage: String = "Topic with id %d not found"
 ) {
 
     fun list(): List<Topic> {
@@ -17,7 +19,7 @@ class TopicService(
     }
 
     fun findById(id: Long): Topic {
-        return topics.first { it.id == id }
+        return topics.find { it.id == id } ?: throw NotFoundException(notFoundMessage.format(id))
     }
 
     fun create(request: NewTopicRequest): Topic {

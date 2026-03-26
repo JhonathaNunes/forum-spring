@@ -1,14 +1,12 @@
 spring:
   datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/forum
     username: forum-user
     password: forum-pass
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
-    defer-datasource-initialization: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         show_sql: true

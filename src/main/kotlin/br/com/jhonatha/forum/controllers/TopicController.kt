@@ -7,6 +7,10 @@ import br.com.jhonatha.forum.dto.toTopicResponse
 import br.com.jhonatha.forum.services.TopicService
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -27,8 +31,11 @@ import org.springframework.web.util.UriComponentsBuilder
 class TopicController(private val service: TopicService) {
 
     @GetMapping
-    fun getAllTopics(@RequestParam courseName: String?): List<TopicResponse> {
-        return service.list(courseName).map {
+    fun getAllTopics(
+        @RequestParam courseName: String?,
+        @PageableDefault(size = 5, sort = ["createdAt"], direction = Sort.Direction.DESC) pagination: Pageable
+    ): Page<TopicResponse> {
+        return service.list(courseName, pagination).map {
             it.toTopicResponse()
         }
     }

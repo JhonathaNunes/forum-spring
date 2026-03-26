@@ -6,6 +6,8 @@ import br.com.jhonatha.forum.exceptions.NotFoundException
 import br.com.jhonatha.forum.mappers.TopicRequestMapper
 import br.com.jhonatha.forum.models.Topic
 import br.com.jhonatha.forum.repository.TopicRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -15,12 +17,10 @@ class TopicService(
     private val notFoundMessage: String = "Topic with id %d not found"
 ) {
 
-    fun list(courseName: String?): List<Topic> {
-        return if(courseName.isNullOrEmpty()) {
-            repository.findAll()
-        } else {
-            repository.findByCourseName(courseName)
-        }
+    fun list(courseName: String?, pagination: Pageable): Page<Topic> {
+        return courseName?.let {
+            repository.findByCourseName(courseName, pagination)
+        } ?: repository.findAll(pagination)
     }
 
     fun findById(id: Long): Topic {

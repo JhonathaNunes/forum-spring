@@ -13,6 +13,8 @@ class FlywayConfig(private val datasource: DataSource) {
         return Flyway.configure()
             .dataSource(datasource)
             .locations("classpath:/db/migration")
+            .baselineOnMigrate(true)
+            .validateOnMigrate(true)
             .load()
     }
 }

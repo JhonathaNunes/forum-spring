@@ -15,8 +15,12 @@ class TopicService(
     private val notFoundMessage: String = "Topic with id %d not found"
 ) {
 
-    fun list(): List<Topic> {
-        return repository.findAll()
+    fun list(courseName: String?): List<Topic> {
+        return if(courseName.isNullOrEmpty()) {
+            repository.findAll()
+        } else {
+            repository.findByCourseName(courseName)
+        }
     }
 
     fun findById(id: Long): Topic {

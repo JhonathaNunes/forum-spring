@@ -2,7 +2,7 @@ package br.com.jhonatha.forum.services
 
 import br.com.jhonatha.forum.exceptions.NotFoundException
 import br.com.jhonatha.forum.models.User
-import br.com.jhonatha.forum.repository.UserRepository
+import br.com.jhonatha.forum.repositories.UserRepository
 import org.springframework.stereotype.Service
 
 @Service

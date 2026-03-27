@@ -1,4 +1,4 @@
-package br.com.jhonatha.forum
+package br.com.jhonatha.forum.configs
 
 import org.flywaydb.core.Flyway
 import org.springframework.context.annotation.Bean

@@ -7,6 +7,8 @@ import br.com.jhonatha.forum.dto.toTopicResponse
 import br.com.jhonatha.forum.services.TopicService
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
@@ -31,9 +33,10 @@ import org.springframework.web.util.UriComponentsBuilder
 class TopicController(private val service: TopicService) {
 
     @GetMapping
+    @Cacheable("topics")
     fun getAllTopics(
         @RequestParam courseName: String?,
-        @PageableDefault(size = 5, sort = ["createdAt"], direction = Sort.Direction.DESC) pagination: Pageable
+        @PageableDefault(sort = ["createdAt"], direction = Sort.Direction.DESC) pagination: Pageable
     ): Page<TopicResponse> {
         return service.list(courseName, pagination).map {
             it.toTopicResponse()
@@ -47,6 +50,7 @@ class TopicController(private val service: TopicService) {
 
     @PostMapping
     @Transactional
+    @CacheEvict(value = ["topics"], allEntries = true)
     fun createTopic(
         @RequestBody @Valid request: NewTopicRequest,
         uriBuilder: UriComponentsBuilder
@@ -59,6 +63,7 @@ class TopicController(private val service: TopicService) {
 
     @PutMapping
     @Transactional
+    @CacheEvict(value = ["topics"], allEntries = true)
     fun updateTopic(@RequestBody @Valid request: UpdateTopicRequest): ResponseEntity<TopicResponse> {
         val topicResponse = service.update(request).toTopicResponse()
 
@@ -67,6 +72,7 @@ class TopicController(private val service: TopicService) {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @CacheEvict(value = ["topics"], allEntries = true)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteTopic(@PathVariable id: Long) {
         service.delete(id)

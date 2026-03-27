@@ -1,4 +1,4 @@
-package br.com.jhonatha.forum.repository
+package br.com.jhonatha.forum.repositories
 
 import br.com.jhonatha.forum.models.Topic
 import org.springframework.data.domain.Page

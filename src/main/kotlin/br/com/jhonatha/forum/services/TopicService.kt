@@ -5,7 +5,7 @@ import br.com.jhonatha.forum.dto.UpdateTopicRequest
 import br.com.jhonatha.forum.exceptions.NotFoundException
 import br.com.jhonatha.forum.mappers.TopicRequestMapper
 import br.com.jhonatha.forum.models.Topic
-import br.com.jhonatha.forum.repository.TopicRepository
+import br.com.jhonatha.forum.repositories.TopicRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service

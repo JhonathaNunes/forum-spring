@@ -1,6 +1,7 @@
 package br.com.jhonatha.forum.services
 
 import br.com.jhonatha.forum.dto.NewTopicRequest
+import br.com.jhonatha.forum.dto.TopicsByCategoryResponse
 import br.com.jhonatha.forum.dto.UpdateTopicRequest
 import br.com.jhonatha.forum.exceptions.NotFoundException
 import br.com.jhonatha.forum.mappers.TopicRequestMapper
@@ -45,5 +46,13 @@ class TopicService(
 
     fun delete(id: Long) {
         repository.deleteById(id)
+    }
+
+    fun topicsByCategory(): List<TopicsByCategoryResponse> {
+        return repository.topicsByCategory()
+    }
+
+    fun listNotAnsweredTopics(): List<Topic> {
+        return repository.listNotAnsweredTopics()
     }
 }

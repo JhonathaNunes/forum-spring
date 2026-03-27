@@ -2,8 +2,10 @@ package br.com.jhonatha.forum.controllers
 
 import br.com.jhonatha.forum.dto.NewTopicRequest
 import br.com.jhonatha.forum.dto.TopicResponse
+import br.com.jhonatha.forum.dto.TopicsByCategoryResponse
 import br.com.jhonatha.forum.dto.UpdateTopicRequest
 import br.com.jhonatha.forum.dto.toTopicResponse
+import br.com.jhonatha.forum.models.Topic
 import br.com.jhonatha.forum.services.TopicService
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
@@ -76,5 +78,15 @@ class TopicController(private val service: TopicService) {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteTopic(@PathVariable id: Long) {
         service.delete(id)
+    }
+
+    @GetMapping("/report")
+    fun topicsByCategory(): List<TopicsByCategoryResponse> {
+        return service.topicsByCategory()
+    }
+
+    @GetMapping("/not_answered")
+    fun listNotAnsweredTopics(): List<Topic> {
+        return service.listNotAnsweredTopics()
     }
 }

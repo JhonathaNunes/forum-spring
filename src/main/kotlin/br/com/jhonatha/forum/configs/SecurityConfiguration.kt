@@ -12,14 +12,16 @@ import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfiguration {
+class SecurityConfiguration (
+    private val unauthorizedEntryPoint: UnauthorizedEntryPoint,
+){
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
             .authorizeHttpRequests { it.anyRequest().authenticated() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .formLogin { it.disable() }
-            .httpBasic {}
+            .httpBasic { it.authenticationEntryPoint(unauthorizedEntryPoint) }
 
         return http.build()
     }

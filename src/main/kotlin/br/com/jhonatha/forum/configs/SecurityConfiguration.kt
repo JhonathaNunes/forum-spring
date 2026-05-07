@@ -21,7 +21,8 @@ class SecurityConfiguration (
             .authorizeHttpRequests { it.anyRequest().authenticated() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .formLogin { it.disable() }
-            .httpBasic { it.authenticationEntryPoint(unauthorizedEntryPoint) }
+            .httpBasic { }
+            .exceptionHandling { it.authenticationEntryPoint(unauthorizedEntryPoint) }
 
         return http.build()
     }

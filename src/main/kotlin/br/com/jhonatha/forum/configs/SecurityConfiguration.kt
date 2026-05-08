@@ -18,7 +18,12 @@ class SecurityConfiguration (
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
-            .authorizeHttpRequests { it.anyRequest().authenticated() }
+            .authorizeHttpRequests { it
+                .requestMatchers("/topics/**")
+                .hasRole("USER")
+                .anyRequest()
+                .authenticated()
+            }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .formLogin { it.disable() }
             .httpBasic { }

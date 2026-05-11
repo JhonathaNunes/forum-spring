@@ -18,6 +18,7 @@ class SecurityConfiguration (
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
+            .csrf { it.disable() }
             .authorizeHttpRequests { it
                 .requestMatchers("/topics/**")
                 .hasRole("USER")

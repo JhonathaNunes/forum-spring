@@ -36,7 +36,7 @@ class TopicService(
 
     fun update(request: UpdateTopicRequest): Topic {
         val topic = repository.findById(request.id)
-            .orElseThrow { NotFoundException("Topic with id ${request.id} not found") }
+            .orElseThrow { NotFoundException(notFoundMessage.format(request.id))}
 
         topic.title = request.title
         topic.message = request.message

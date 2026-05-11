@@ -47,7 +47,7 @@ class AnswerController(
         @PathVariable topicId: Long,
         @RequestBody @Valid request: UpdateAnswerRequest,
     ): ResponseEntity<AnswerResponse> {
-        val response = answerService.update(request, topicId).toAnswersResponse()
+        val response = answerService.update(request).toAnswersResponse()
 
         return ResponseEntity.ok(response)
     }
@@ -58,6 +58,6 @@ class AnswerController(
         @PathVariable topicId: Long,
         @PathVariable id: Long
     ) {
-        answerService.delete(id, topicId)
+        answerService.delete(id)
     }
 }

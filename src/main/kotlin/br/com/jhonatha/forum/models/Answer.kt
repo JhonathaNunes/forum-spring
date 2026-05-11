@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 data class Answer(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-    val message: String,
+    var message: String,
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now(),
     @ManyToOne
